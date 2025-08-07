@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "5982308522",
+    "project_id": "serveapp-617d9",
+    "storage_bucket": "serveapp-617d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5982308522:android:28d91c681c2ffa619d68d3",
+        "android_client_info": {
+          "package_name": "com.mycompany.serveapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfkfOrtebkmosI91QbTQkZoIKuKyWQ5KQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5982308522:android:53dea63640b78d2f9d68d3",
+        "android_client_info": {
+          "package_name": "com.serveapp.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfkfOrtebkmosI91QbTQkZoIKuKyWQ5KQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
