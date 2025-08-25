@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:serveapp/modules/explore/controllers/explore_controllers.dart';
+import 'package:serveapp/shared/chatScreen.dart';
 
 import '../../../shared/donations.dart';
 import '../../../shared/events.dart';
 import '../../../shared/services.dart';
 import '../../../shared/volunteering.dart';
+import 'package:vibe_loader/vibe_loader.dart';
 
 class TempleDetailView extends GetView<ExploreControllers> {
   final String templeId;
@@ -16,16 +19,76 @@ class TempleDetailView extends GetView<ExploreControllers> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Temple Details",style: TextStyle(color: Colors.amber,fontWeight: FontWeight.w600),),
+        title: Text(
+          "Temple Details",
+          style: TextStyle(color: Colors.amber, fontWeight: FontWeight.w600),
+        ),
         backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              try {
+                print("TempleId from detail: '${templeId}'");
+
+                // First try with direct query
+                var adminSnapshot = await FirebaseFirestore.instance
+                    .collection('temple_admin')
+                    .where('templeId', isEqualTo: templeId.trim())
+                    .limit(1)
+                    .get();
+
+                if (adminSnapshot.docs.isEmpty) {
+                  // Fallback: fetch all admins and match manually
+                  final allAdmins = await FirebaseFirestore.instance
+                      .collection('temple_admin')
+                      .get();
+
+                  // Filter documents manually
+                  final matchingDocs = allAdmins.docs.where((doc) =>
+                  doc['templeId'].toString().trim() == templeId.trim()).toList();
+
+                  if (matchingDocs.isNotEmpty) {
+                    final adminData = matchingDocs.first.data();
+                    final templeAdminId = adminData['temple_admin_uid'];
+                    final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+                    Get.to(() => Chatscreen(
+                      currentUserId: currentUserId,
+                       templeAdminId: templeAdminId,
+                    ));
+                  } else {
+                    Get.snackbar("Error", "Temple admin not found");
+                  }
+                } else {
+                  // Use the document from the initial query
+                  final adminData = adminSnapshot.docs.first.data();
+                  final templeAdminId = adminData['temple_admin_uid'];
+                  final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+                  Get.to(() => Chatscreen(
+                    currentUserId: currentUserId,
+              templeAdminId: templeAdminId,
+                  ));
+                }
+              } catch (e) {
+                Get.snackbar("Error", "Failed to fetch temple admin: $e");
+              }
+            },
+            icon: Icon(Icons.chat, color: Colors.amber),
+          ),
+        ],
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: controller.getTempleDetails(templeId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+              child: BouncingDotsLoader(
+                color: Colors.amber,
+              ),
+            );
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error loading temple details'));
@@ -67,7 +130,8 @@ class TempleDetailView extends GetView<ExploreControllers> {
                         children: [
                           Text(
                             templeData['temple_name'] ?? 'Temple',
-                            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 28, fontWeight: FontWeight.bold),
                           ),
                           StreamBuilder<bool>(
                             stream: controller.isFavoriteStream(templeId),
@@ -75,10 +139,14 @@ class TempleDetailView extends GetView<ExploreControllers> {
                               bool isFavorite = snapshot.data ?? false;
                               return IconButton(
                                 icon: Icon(
-                                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                                  color: isFavorite ? Colors.red : Colors.blueGrey,
+                                  isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color:
+                                  isFavorite ? Colors.red : Colors.blueGrey,
                                 ),
-                                onPressed: () => controller.toggleFavorite(templeId),
+                                onPressed: () =>
+                                    controller.toggleFavorite(templeId),
                               );
                             },
                           ),
@@ -154,16 +222,24 @@ class TempleDetailView extends GetView<ExploreControllers> {
 
   Widget _buildServiceButton(String title, IconData icon) {
     return GestureDetector(
-      onTap: () {print(templeId);
+      onTap: () {
+        print(templeId);
         if (title == "Volunteering") {
-          Get.to(() => Volunteering(templeId: templeId,));
+          Get.to(() => Volunteering(
+            templeId: templeId,
+          ));
         } else if (title == "Events") {
-
-          Get.to(() => Events(templeId: templeId,));
+          Get.to(() => Events(
+            templeId: templeId,
+          ));
         } else if (title == "Services") {
-          Get.to(() => Services(templeId: templeId,));
+          Get.to(() => Services(
+            templeId: templeId,
+          ));
         } else if (title == "Donations") {
-          Get.to(() => Donations(templeId: templeId,));
+          Get.to(() => Donations(
+            templeId: templeId,
+          ));
         } else {
           Get.snackbar(title, "Failed to navigate..");
         }
@@ -172,9 +248,16 @@ class TempleDetailView extends GetView<ExploreControllers> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 40,color: Colors.amber,),
+            Icon(
+              icon,
+              size: 40,
+              color: Colors.amber,
+            ),
             SizedBox(height: 8),
-            Text(title,style: TextStyle(color: Colors.amber),),
+            Text(
+              title,
+              style: TextStyle(color: Colors.amber),
+            ),
           ],
         ),
       ),

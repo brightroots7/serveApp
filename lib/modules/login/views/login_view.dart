@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:serveapp/modules/login/views/forgot_view.dart';
+import 'package:vibe_loader/loaders/liquid_bubble_loader.dart';
 import '../../../shared/Appcolors.dart';
 import '../controllers/login_controller.dart';
 
@@ -96,9 +97,8 @@ class LoginView extends GetView<LoginController> {
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: controller.isLoading.value
-                            ? CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                            ? LiquidBubbleLoader(
+                                primaryColor: Colors.white,secondaryColor: Colors.white,
                               )
                             : Text(
                                 'Log in',

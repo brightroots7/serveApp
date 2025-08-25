@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:serveapp/modules/explore/controllers/explore_controllers.dart';
+import 'package:vibe_loader/loaders/neon_grid_loader.dart';
 
 class Services extends GetView<ExploreControllers> {
   final String templeId;
@@ -26,7 +27,7 @@ class Services extends GetView<ExploreControllers> {
                 stream: controller.getServices(templeId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: NeonGridLoader(neonColor: Colors.amber,));
                   }
 
                   if (snapshot.hasError) {

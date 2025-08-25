@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:serveapp/modules/explore/controllers/explore_controllers.dart';
+import 'package:vibe_loader/loaders/quantum_orbital_loader.dart';
 class Events extends GetView<ExploreControllers> {
   final String templeId;
   Events({super.key, required this.templeId});
@@ -21,7 +22,10 @@ class Events extends GetView<ExploreControllers> {
         stream: controller.getEvents(templeId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: QuantumOrbitalLoader(
+              orbitColor: Colors.amber,
+              particleColor: Colors.amber,
+            ));
           }
 
           if (snapshot.hasError) {

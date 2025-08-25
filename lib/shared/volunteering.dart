@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:serveapp/modules/explore/controllers/explore_controllers.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:vibe_loader/loaders/neon_grid_loader.dart';
+import 'package:vibe_loader/loaders/pulse_loader.dart';
 import 'Appcolors.dart';
 
 class Volunteering extends GetView<ExploreControllers> {
@@ -26,7 +28,7 @@ class Volunteering extends GetView<ExploreControllers> {
         stream: controller.getVolunteeringRequests(templeId),  // Correct usage of templeId
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: NeonGridLoader(neonColor:  Colors.amber,));
           }
 
           if (snapshot.hasError) {

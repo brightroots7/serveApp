@@ -51,6 +51,8 @@ dependencies:
   webview_flutter: ^4.10.0
   flutter_paypal_payment: ^1.0.8
   http: ^1.3.0
+  vibe_loader: ^0.0.2
+  firebase_messaging: ^15.2.10
   image_picker:
 
 dev_dependencies:

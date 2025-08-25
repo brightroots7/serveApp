@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:serveapp/modules/explore/controllers/explore_controllers.dart';
 import 'package:serveapp/shared/paypalPayment.dart';
+import 'package:vibe_loader/loaders/pulse_loader.dart';
 
 import 'Appcolors.dart';
 
@@ -44,7 +45,7 @@ class Donations extends GetView<ExploreControllers> {
                     .getTempleDetails(templeId), // Use getTempleDetails instead
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: PulseLoader(color: Colors.amber,));
                   }
 
                   if (snapshot.hasError) {
@@ -89,10 +90,7 @@ class Donations extends GetView<ExploreControllers> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child:
-                          // controller.isLoading.value
-                          //     ? CircularProgressIndicator(
-                          //   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                          // ) :
+
                           Text(
                         'Proceed',
                         style: TextStyle(

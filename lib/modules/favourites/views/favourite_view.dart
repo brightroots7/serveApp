@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vibe_loader/loaders/neon_grid_loader.dart';
 
 import '../controllers/favourites_controller.dart';
 
@@ -37,7 +38,7 @@ class FavouriteView extends GetView<FavouritesController> {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: NeonGridLoader(neonColor: Colors.amber,));
                   }
 
                   return ListView.builder(

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:serveapp/modules/introduction/views/introduction_view.dart';
 import 'package:serveapp/shared/homeScreen.dart';
+import 'package:vibe_loader/loaders/liquid_bubble_loader.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: LiquidBubbleLoader(primaryColor: Colors.amber,secondaryColor: Colors.amber,));
           }
 
           if (snapshot.hasData) {

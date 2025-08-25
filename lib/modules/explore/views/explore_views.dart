@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:serveapp/modules/explore/controllers/explore_controllers.dart';
 import 'package:serveapp/modules/explore/views/templeDetails.dart';
+import 'package:vibe_loader/loaders/neon_grid_loader.dart';
+import 'package:vibe_loader/loaders/quantum_orbital_loader.dart';
 import '../../../shared/Appcolors.dart';
 
 class ExploreViews extends GetView<ExploreControllers> {
@@ -110,7 +112,7 @@ class ExploreViews extends GetView<ExploreControllers> {
       stream: controller.searchTemples(controller.searchQuery.value),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: QuantumOrbitalLoader(particleColor: Colors.amber,));
         }
         if (snapshot.hasError) return SizedBox.shrink();
 
@@ -148,7 +150,7 @@ class ExploreViews extends GetView<ExploreControllers> {
       stream: controller.getPopularTemples(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: NeonGridLoader(neonColor: Colors.amber,));
         }
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
@@ -193,7 +195,7 @@ class ExploreViews extends GetView<ExploreControllers> {
       stream: controller.getMustVisitTemples(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: NeonGridLoader(neonColor: Colors.amber,));
         }
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));

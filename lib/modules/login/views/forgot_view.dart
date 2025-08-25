@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:serveapp/modules/login/controllers/login_controller.dart';
+import 'package:vibe_loader/loaders/quantum_orbital_loader.dart';
 
 import '../../../shared/Appcolors.dart';
 
@@ -67,9 +68,7 @@ class ForgotView extends GetView<LoginController>{
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child:controller.isResettingPassword.value
-                          ? CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
+                          ? QuantumOrbitalLoader(particleColor: Colors.amber,)
                           : Text(
                         'Send me now',
                         style: TextStyle(

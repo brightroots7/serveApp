@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:vibe_loader/loaders/neon_grid_loader.dart';
 
 import '../controllers/history_controller.dart';
 
@@ -40,7 +41,7 @@ class HistoryView extends GetView<HistoryController> {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: NeonGridLoader(neonColor: Colors.amber,));
                   }
 
                   return ListView.builder(

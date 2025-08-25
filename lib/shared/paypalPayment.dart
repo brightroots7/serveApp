@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:serveapp/shared/homeScreen.dart';
+import 'package:vibe_loader/loaders/neon_grid_loader.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaypalPaymentScreen extends StatefulWidget {
@@ -248,7 +249,7 @@ class _PaypalPaymentScreenState extends State<PaypalPaymentScreen> {
           backgroundColor: Colors.black12,
           elevation: 0.0,
         ),
-        body: const Center(child: CircularProgressIndicator()),
+        body: const Center(child: NeonGridLoader(neonColor: Colors.amber,)),
       );
     }
   }

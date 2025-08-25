@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vibe_loader/loaders/neon_grid_loader.dart';
 
 import '../../../shared/Appcolors.dart';
 import '../../login/views/login_view.dart';
@@ -93,9 +94,7 @@ class SignupView extends GetView<SignupController> {
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: controller.isLoading.value
-                            ? CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        )
+                            ? NeonGridLoader(neonColor: Colors.amber,)
                             : Text(
                           'Create account',
                           style: TextStyle(

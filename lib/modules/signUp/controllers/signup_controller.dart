@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,15 +13,19 @@ final TextEditingController firstnameController = TextEditingController();
 final TextEditingController lastnameController = TextEditingController();
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
-
+static final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 final _auth = FirebaseAuth.instance;
 RxString errorMessage = ''.obs;
 
 RxBool isLoading = false.obs;
+Future<String?>getToken()async{
+ return await _fcm.getToken();
+}
 
 
-// Correct the validation logic in signUp method
+
   Future<void> signUp() async {
+    final fcmToken = getToken();
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
@@ -51,6 +56,7 @@ RxBool isLoading = false.obs;
         'email': email,
         'uid':userCredential.user?.uid,
         'status':"Active",
+        'fcmToken':fcmToken,
         "created_time":Timestamp.now(),
 
       });
